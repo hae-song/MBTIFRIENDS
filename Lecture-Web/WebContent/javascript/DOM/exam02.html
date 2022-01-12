@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style>
+table{
+width:300px;
+height:400px;
+
+}
+
+
+</style>
+<script>
+window.onload = function(){
+	
+let id = document.getElementById('id') //도큐먼트 안에서  id에 의해서 요소를 찾고싶음.. 
+id.innerHTML ='아이디'
+
+/*
+let pw = document.getElementById('pass') //id가 pass인애를 찾아라
+pw.innerHTML = '패스워드'
+*/
+
+// document.querySelector('#id') //id가 id인 애를 찾고시퍼!! #id -> selector
+let pw = document.querySelector('.pass')	//클래스는 .pass
+
+pw.innerText='패스워드'	//안에를 '패스워드'로 바꿔라?
+
+}
+
+
+
+</script>
+
+</head>
+<body>
+<table border="1">
+<tr>
+<td id="id">ID</td>
+</tr>
+
+<tr>
+<td class = "pass">PASSWORD</td>
+</tr>
+
+
+
+</table>
+
+
+
+</body>
+</html>

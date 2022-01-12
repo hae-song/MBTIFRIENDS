@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script>
+window.alert('!!!')
+let sub = window.open("","","width=400, height=300")
+
+if(!sub){
+alert('팝업창 옵션을 확인하세요')
+}
+
+sub.moveTo(100,100) //창 크기 조절
+
+
+setInterval(function (){
+	sub.moveBy(20,20)
+},1000)
+
+let width = screen.width
+let hieght= screen.height
+
+sub.resizeTo(widht, height)	//내창크키만큼 팝업창 조절해라..
+
+
+</script>
+
+
+</head>
+<body>
+
+</body>
+</html>

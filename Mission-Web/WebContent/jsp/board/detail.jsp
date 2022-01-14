@@ -1,3 +1,5 @@
+<%@page import="kr.co.mlec.board.vo.BoardVO"%>
+<%@page import="kr.co.mlec.board.dao.BoardDAO"%>
 <%@page import="kr.co.mlec.util.JDBCClose"%>
 <%@page import="java.sql.ResultSet"%>
 <%@page import="java.sql.PreparedStatement"%>
@@ -22,20 +24,11 @@ int boardNo = Integer.parseInt(request.getParameter("no"));
 
 
 //2.
-Connection conn = new ConnectionFactory().getConnection();
-StringBuilder sql = new StringBuilder();
-sql.append("select no, title, writer, content, view_cnt ");
-sql.append("	, to_char(reg_date,'yyyy-mm-dd') reg_date ");
-sql.append(" from tbl_board ");
-sql.append(" where no=? ");
-PreparedStatement pstmt = conn.prepareStatement(sql.toString());
-pstmt.setInt(1,boardNo);
-pstmt.executeQuery();
-
-ResultSet rs = pstmt.executeQuery();
-
-rs.next();
-
+BoardDAO dao = new BoardDAO();
+BoardVO board = dao.selectBoardByNo(boardNo);	//BoardVO 형태로 받음.
+dao.readCountUp(boardNo);
+//공유페이지에 등록, board라는 이름으로 board객체 등록(jsp에서 el, jstl로 접근)
+pageContext.setAttribute("board",board);
 %>
 
 
@@ -45,18 +38,17 @@ rs.next();
 <head>
 <meta charset="UTF-8">
 <title>게시판 상세페이지</title>
-<style>
-hr{
-width:80%
-}
 
-</style>
 
+
+<link rel="stylesheet" href="/Mission-Web/css/layout.css">
+<link rel="stylesheet" href="/Mission-Web/css/board.css">
 
 <script>
 function doAction(type){
 	switch(type){
 	case 'U':
+		location.href = "updateForm.jsp?no=${param.no}" //board.no써도됨
 		break;
 		
 	case 'D':
@@ -73,8 +65,21 @@ function doAction(type){
 }
 </script>
 
+
+
+
 </head>
+
+
+
 <body>
+
+	<header>
+	<jsp:include page="/jsp/include/topmenu.jsp" />
+	 </header>
+<section>body부분
+
+
 <div align="center">
 
 <hr>
@@ -84,37 +89,58 @@ function doAction(type){
 <table border="1">
 <tr>
 	<th width="25%">번호</th>
-	<td><%= rs.getInt("no") %></td>
+	<td>${board.no }</td>	
+	
+	<%--boardvo에 있는 no 변수 이름들.. 
+	 <td><%= rs.getInt("no") %></td>
+	 --%>
 
 </tr>
 
 <tr>
 	<th width="25%">제목</th>
+	<td>${board.title }</td>
+	
+	<%--
 	<td><%= rs.getString("title") %></td>
+ 	--%>
 
 </tr>
 
 <tr>
 	<th width="25%">작성자</th>
-	<td><%= rs.getString("writer") %></td>
+	<td>${board.writer }</td>
+	<%--
+	 <td><%= rs.getString("writer") %></td>
+	 --%>
 
 </tr>
 
 <tr>
 	<th width="25%">내용</th>
-	<td><%= rs.getString("content") %></td>
+	<td>${board.content }</td>
+	<%--
+	  <td><%= rs.getString("content") %></td>
+	 --%>
 
 </tr>
 
 <tr>
 	<th width="25%">조회수</th>
-	<td><%= rs.getInt("view_cnt") %></td>
+	<td>${board.viewCnt }</td>
+	<%--
+	 <td><%= rs.getInt("view_cnt") %></td>
+	 --%>
 
 </tr>
 
 <tr>
 	<th width="25%">등록일</th>
+	<td>${board.regDate }</td>
+	
+	<%--
 	<td><%= rs.getString("reg_date") %></td>
+	 --%>
 
 </tr>
 </table>
@@ -127,9 +153,32 @@ function doAction(type){
 
 </div>
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</section>
+
+<footer> 
+<%@ include file="/jsp/include/footer.jsp" %> <%--절대경로 써야함. 상대경로 안됨. 모두다 써야하기 때문 --%>
+</footer>
+
 </body>
 </html>
 
-<% 
-JDBCClose.close(pstmt, conn);
-%>
+
+
+
+
+
+

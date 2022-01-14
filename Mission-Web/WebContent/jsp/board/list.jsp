@@ -1,3 +1,4 @@
+<%@page import="kr.co.mlec.board.dao.BoardDAO"%>
 <%@page import="java.sql.PreparedStatement"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
@@ -12,30 +13,11 @@
     <% 
     /* tbl_board에서 전체게시글(번호, 제목, 작성자, 등록일) 조회*/
     
-    Connection conn = new ConnectionFactory().getConnection();
-    StringBuilder sql = new StringBuilder();
-    sql.append(" select no, title, writer, to_char(reg_date,'yyyy-mm-dd') as reg_date ");
-    sql.append(" from tbl_board ");
-    sql.append(" order by no desc ");
-    PreparedStatement pstmt = conn.prepareStatement(sql.toString());
-    ResultSet rs = pstmt.executeQuery();
-   
+    BoardDAO dao = new BoardDAO();
+    List<BoardVO> list = dao.selectAllBoard();
     
-    List<BoardVO> list = new ArrayList<>();
+
     
-    
-    while(rs.next()){
-    	int no=rs.getInt("no");
-    	String title=rs.getString("title");
-    	String writer=rs.getString("writer");
-    	String regDate=rs.getString("reg_date");
-    	BoardVO board = new BoardVO(no, title, writer, regDate);
-    	//System.out.println(board);
-    	
-    	list.add(board);
-    	
-    }
-    JDBCClose.close(pstmt, conn);
     pageContext.setAttribute("list",list);
     
     %>
@@ -46,31 +28,62 @@
 <title>Insert title here</title>
 
 
-<style>
-hr, table{
-width:80%
-}
-</style>
+
+
+
+<link rel="stylesheet" href="/Mission-Web/css/layout.css">
+<link rel="stylesheet" href="/Mission-Web/css/board.css">
+
+
 
 <script>
 	function goWriteForm(){
 	location.href = "writeform.jsp"
 	
-}
+	}
+
+	function doAction(boardNo){
+		<c:choose>
+		
+			<c:when test="${ not empty userVO }">
+			location.href="detail.jsp?no=" + boardNo
+			</c:when>
+			
+			<c:otherwise>
+				if(confirm('로그인서비스가 필요합니다\n로그인페이지로 이동하시겠습니까?')){
+					location.href = '/Mission-Web/jsp/login/loginForm.jsp'
+				}
+			</c:otherwise>
+		
+		</c:choose>
+		
+		
+	}	
+	
 
 </script>
 
 
 </head>
+
+
+
 <body>
 
+	<header>
+	<jsp:include page="/jsp/include/topmenu.jsp" />
+	 </header>
+<section>
+
+
+<!-- 주석 -->
 <div align="center">
 <hr>
 <h2>게시판 목록</h2>
 <hr>
 <br>
 
-<table border ="1">
+<table border ="1" class="list">
 <tr>
 <th width="7%">번호</th>
 <th>제목</th>
@@ -83,10 +96,25 @@ width:80%
 	<tr>
 	<td>${board.no }</td>
 	<td>
-	<a href="detail.jsp?no=${board.no}">
 	
-	${board.title }
+	<%-- 
+	<a href="detail.jsp?no=${board.no}">
+	<c:out value="${board.title }"/>
 	</a>
+	--%>
+	
+	<%--
+	<a href="javascript:alert('!!!')"> 클릭했을때 자바스크립트 함수(alert('!!!'))라는 호출하기
+	 --%>
+	 
+	 <a href="javascript:doAction(${board.no })"> 
+	 <%--foreach문이 돌고있으니까 한 행의 board.no 아는것. foreach 블럭 넘어가면 board.no모름 그래서 파라미터로 board.no써주는것 --%>
+
+	<c:out value="${board.title }"/>
+	</a>
+	
+	
+	
 	</td>
 	<td>${board.writer }</td>
 	<td>${board.regDate }</td>
@@ -117,13 +145,27 @@ String regDate=rs.getString("reg_date");
 
 
 <br>
+<c:if test="${not empty userVO  }">
 <button onclick="goWriteForm()">새글등록</button>
-
+</c:if>
 
 </div>
+
+
+
+
+
+</section>
+
+<footer> 
+<%@ include file="/jsp/include/footer.jsp" %> <%--절대경로 써야함. 상대경로 안됨. 모두다 써야하기 때문 --%>
+</footer>
+
 </body>
 </html>
 
-<% 
- JDBCClose.close(pstmt, conn); 
-%>
+
+
+
+
+

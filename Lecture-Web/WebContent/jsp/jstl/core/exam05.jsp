@@ -4,11 +4,9 @@
     <% String[] names ={"공길동","강길동","윤길동","송길동","김길동"}; 
     pageContext.setAttribute("names", names);
     pageContext.setAttribute("namesLength", names.length);
-    pageContext.setAttribute("aLength", a.length);
+   
     
-    String[] a = {"," , "," , ",","," };
-    pageContext.setAttribute("a", a);
-    
+   
     
     %>
 <!DOCTYPE html>
@@ -32,13 +30,15 @@ ${name }
 </c:forEach>
 
 
-<c:forEach var="i" begin="0" end="${namesLength-1 }">
-${names[i] }<br>
-	<c:forEach var="j" begin="0" end="${aLength-2 }">
-	${a[j] }<br>
-	</c:forEach>
-	
+<c:forEach var="i" begin="1" end="${namesLength-1}">
+${names[i-1] },
+
+		<c:if test= "${names[i] eq names[namesLength-1]}">
+		${names[i] }
+		</c:if>
+		
 </c:forEach>
+
 
 
 

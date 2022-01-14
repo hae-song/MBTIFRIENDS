@@ -50,6 +50,11 @@ function doWrite(){
 <br>
 
 <form action = "write.jsp" method="post" name="inputForm" onsubmit="return doWrite()">
+<%--
+writer값을 디비에 보내줘야 되는데 로그인 아이디로 작성자를 설정해 놔서 writer 값을 디비에 보내줄 수 없음   -> 로그인한 아이디로 writer값을 보내주기 위해 hidden사용 !!
+ --%>
+<input type="hidden" name="writer" value="${userVO.id }">
+
 <table border="1">
 <tr>
 	<th width="23%">제목</th>
@@ -63,7 +68,10 @@ function doWrite(){
 <tr>
 <th>글쓴이</th>
 <td>
-<input type="text" name="writer" >
+${userVO.id }
+<!-- 
+ <input type="text" name="writer" >
+ -->
 </td>
 </tr>
 

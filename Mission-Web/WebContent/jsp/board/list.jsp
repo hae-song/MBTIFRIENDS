@@ -34,9 +34,20 @@
 <link rel="stylesheet" href="/Mission-Web/css/layout.css">
 <link rel="stylesheet" href="/Mission-Web/css/board.css">
 
+<script src="/Lecture-Web/jquery/js/jquery-3.6.0.js"></script>
+
 
 
 <script>
+//jquery로 함수 필요없이 그냥 클릭 쓸수있다.
+$(document).ready(function(){
+	
+	$('button').click(function(){
+		location.href="writeform.jsp"
+		
+	})
+})
+
 	function goWriteForm(){
 	location.href = "writeform.jsp"
 	
@@ -146,7 +157,7 @@ String regDate=rs.getString("reg_date");
 
 <br>
 <c:if test="${not empty userVO  }">
-<button onclick="goWriteForm()">새글등록</button>
+<button>새글등록</button>
 </c:if>
 
 </div>

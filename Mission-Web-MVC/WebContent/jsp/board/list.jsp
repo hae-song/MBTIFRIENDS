@@ -10,34 +10,29 @@
 <%@ page import = "java.util.ArrayList" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-    <% 
-    /* tbl_board에서 전체게시글(번호, 제목, 작성자, 등록일) 조회*/
-    
-    BoardDAO dao = new BoardDAO();
-    List<BoardVO> list = dao.selectAllBoard();
-    
-
-    //공유영역 등록
-    pageContext.setAttribute("list",list);
-    
-    %>
+   
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
 
-<link rel="stylesheet" href="/Mission-Web/css/layout.css">
-<link rel="stylesheet" href="/Mission-Web/css/board.css">
 
-<script src="/Lecture-Web/jquery/js/jquery-3.6.0.js"></script>
+
+
+
+<link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/layout.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/board.css">
+<script src="${pageContext.request.contextPath }/resources/js/jquery-3.6.0.js"></script>
+
+
 
 <script>
-
+//jquery로 함수 필요없이 그냥 클릭 쓸수있다.
 $(document).ready(function(){
 	
 	$('button').click(function(){
-		location.href="writeform.jsp"
+		location.href="${pageContext.request.contextPath}/board/writeForm.do"
 		
 	})
 })
@@ -56,7 +51,7 @@ $(document).ready(function(){
 			
 			<c:otherwise>
 				if(confirm('로그인서비스가 필요합니다\n로그인페이지로 이동하시겠습니까?')){
-					location.href = '/Mission-Web/jsp/login/loginForm.jsp'
+					location.href = '${ pageContext.request.contextPath }/login.do'
 				}
 			</c:otherwise>
 		

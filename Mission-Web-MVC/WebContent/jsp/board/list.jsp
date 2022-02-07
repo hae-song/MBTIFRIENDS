@@ -46,7 +46,7 @@ $(document).ready(function(){
 		<c:choose>
 		
 			<c:when test="${ not empty userVO }">
-			location.href="detail.jsp?no=" + boardNo
+			location.href="${ pageContext.request.contextPath }/board/detail.do?no=" + boardNo
 			</c:when>
 			
 			<c:otherwise>

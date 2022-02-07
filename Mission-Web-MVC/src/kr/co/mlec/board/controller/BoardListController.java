@@ -1,6 +1,6 @@
 package kr.co.mlec.board.controller;
 
-import java.util.ArrayList;
+
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;

@@ -10,7 +10,7 @@
 
 		<init-param>
 			<param-name>propLocation</param-name>
-			<param-value>E:\\web-workspace\\Mission-Web-MVC\\bean.properties</param-value>
+			<param-value>F:\\web-workspace\\Mission-Web-MVC\\bean.properties</param-value>
 		</init-param>
 	</servlet>
 
